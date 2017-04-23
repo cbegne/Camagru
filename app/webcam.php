@@ -5,6 +5,7 @@ session_start() or die("Failed to resume session\n");
 ?>
 
 <!-- Page webcam : possibilité de prendre des photos à partir d'une webcam avec un choix de 3 images superposables -->
+<!-- no access if not logged to be added -->
 
 <html>
   <head>
