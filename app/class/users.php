@@ -66,7 +66,7 @@ class Users {
     $req = $this->db->prepare("UPDATE `users` SET `token` = ? WHERE `login` = ?");
     $req->execute(array($token, $this->login));
     $header = "From: cbegne@student.42.fr";
-    $pwrurl = "localhost:8080/camagru/resetpassword.php?q=" . $token;
+    $pwrurl = "localhost:8080/camagru/password.php?q=" . $token;
     $this->message = "Votre mot de passe a été modifié.";
     $mailbody = "Bonjour " . $this->login . ",\nPour réinitialiser votre mot de passe pour Camagru, cliquez sur le lien suivant :\n" . $pwrurl;
     if (mail($email, "Camagru - Mot de passe oublié", $mailbody, $header))
