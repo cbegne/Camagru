@@ -13,10 +13,10 @@
       <input type="submit" name="submit_passwd" value="OK">
     </form>
     <?php
-    require 'class/users.php';
+    require '../class/users.class.php';
     if ($_GET['q'] != "") {
       $token = $_GET['q'];
-      $db = new Users("", $new_passwd, "", $token);
+      $db = new Users("", $new_passwd, "", "", $token);
       $db->resetPassword();
       if ($db->message)
         echo '<p style="color:red;">' . $db->message . '</p>';

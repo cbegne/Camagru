@@ -2,11 +2,11 @@
 
 session_start() or die("Failed to resume session\n");
 
-if (!isset($_SESSION['logged'])) {
-  require_once('app/config/setup.php');
-  header("Location: app/home.php"); // redirection vers page connexion
+if (!isset($_SESSION['logged_user'])) {
+  require_once('config/setup.php');
+  header("Location: pages/home.php"); // redirection vers page connexion
 }
 else
-  header("Location: app/webcam.php"); // redirection vers page webcam
+  header("Location: pages/webcam.php"); // redirection vers page webcam
 
 ?>

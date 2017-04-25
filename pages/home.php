@@ -1,7 +1,7 @@
 <?php
 
 session_start() or die("Failed to resume session\n");
-
+require_once '../class/users.class.php';
 
 ?>
 
@@ -23,15 +23,15 @@ session_start() or die("Failed to resume session\n");
   </form>
   <?php
   if (!empty($_POST['login']) and !empty($_POST['passwd']) and $_POST['submit'] == "OK") {
-    require 'class/users.php';
+
     $login = trim($_POST['login']);
     $passwd = $_POST['passwd'];
-    $db = new Users($login, $passwd, "", "");
+    $db = new Users($login, $passwd, "", "", "");
     $db->connectUser();
     if ($db->message)
       echo '<p style="color:red;">' . $db->message . '</p>';
     else {
-      $_SESSION['logged'] = $login;
+      $_SESSION['logged_user'] = $login;
       echo '<script> location.replace("../index.php"); </script>';
     }
   }
@@ -41,16 +41,24 @@ session_start() or die("Failed to resume session\n");
   <form class="" action="#" method="post">
     Identifiant<br /><input type="text" name="new_login" value=""><br />
     Mot de passe<br /><input type="password" name="new_passwd" value=""><br />
+    Confirmation mot de passe<br /><input type="password" name="new_passwd_verif" value=""><br />
     Mail<br /><input type="email" name="new_email" value=""><br />
     <input type="submit" name="submit_new" value="OK">
     <?php
-    if (!empty($_POST['new_login']) and !empty($_POST['new_passwd']) and !empty($_POST['new_email']) and $_POST['submit_new'] == "OK") {
-      require 'class/users.php';
-      $new_login = trim($_POST['new_login']);
-      $new_passwd = $_POST['new_passwd'];
-      $new_email = trim($_POST['new_email']);
-      $db = new Users($new_login, $new_passwd, $new_email, "");
-      $db->addUser();
+    if (!empty($_POST['new_login']) and !empty($_POST['new_passwd']) and !empty($_POST['new_passwd_verif']) and !empty($_POST['new_email']) and $_POST['submit_new'] == "OK") {
+
+        $new_login = trim($_POST['new_login']);
+        $new_email = trim($_POST['new_email']);
+        $db = new Users($new_login, $_POST['new_passwd'], $_POST['new_passwd_verif'], $new_email, "");
+        $db->sendConfirmationUser();
+        if ($db->message)
+          echo '<p style="color:red;">' . $db->message . '</p>';
+    }
+    else if ($_GET['q'] != "") {
+
+      $token = $_GET['q'];
+      $db = new Users("", "", "", "", $token);
+      $db->confirmUser();
       if ($db->message)
         echo '<p style="color:red;">' . $db->message . '</p>';
     }

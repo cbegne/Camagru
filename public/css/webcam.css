@@ -1,0 +1,32 @@
+.centre {
+  display: flex;
+}
+
+main {
+  margin: 10px;
+}
+
+aside {
+  margin: 5px;
+}
+
+.webcam {
+  display: flex;
+}
+
+#video {
+  margin-right: 5px;
+  border: 2px solid black;
+  /*box-shadow: 5px 5px 5px #888888;*/
+}
+
+#canvas {
+  background-color: #DCDCDC;
+  border: 2px solid black;
+  /*box-shadow: 5px 5px 5px #888888;*/
+}
+
+.minipic {
+  height: 100px;
+  margin: 5px;
+}

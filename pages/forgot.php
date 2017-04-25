@@ -11,7 +11,7 @@
        <input type="submit" name="submit" value="Envoyer">
      </form>
      <?php
-     require 'class/users.php';
+     require '../class/users.class.php';
      if (!empty($_POST['login']) && $_POST['submit'] == "Envoyer") {
        $login = trim($_POST['login']);
        $db = new Users($login, "", "", "");

@@ -49,7 +49,11 @@
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = canvas.toDataURL('image/png');
-    // photo.setAttribute('src', data);
+    var picData = data.replace("data:image/png;base64,", "");
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../app/savepic.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("pic="+encodeURIComponent(picData));
   }
 
   startbutton.addEventListener('click', function(ev){

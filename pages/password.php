@@ -8,14 +8,15 @@
   <body>
      <a href="home.php">Home</a><br />
     <h1>Réinitialiser mot de passe</h1>
-    <form class="" action="home.php" method="post">
+    <form class="" action="#" method="post">
       Nouveau mot de passe <input type="text" name="new_passwd" value="">
-      <input type="submit" name="submit_passwd" value="OK">
+      <input type="submit" name="submit" value="OK">
     </form>
     <?php
-    require 'class/users.php';
-    if ($_GET['q'] != "") {
+    require '../class/users.class.php';
+    if ($_GET['q'] != "" && !empty($_POST['new_passwd']) && $_POST['submit'] == "OK") {
       $token = $_GET['q'];
+      $new_passwd = $_POST['new_passwd'];
       $db = new Users("", $new_passwd, "", $token);
       $db->resetPassword();
       if ($db->message)
