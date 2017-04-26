@@ -34,6 +34,21 @@ try {
   `date_creation` DATETIME NOT NULL,
   `pic` LONGBLOB NOT NULL)";
   $pdo->exec($sql);
+
+  $sql = "CREATE TABLE IF NOT EXISTS `likes` (
+  `id_like` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `id_pic` INT UNSIGNED NOT NULL,
+  `login` VARCHAR(30) NOT NULL,
+  `date_creation` DATETIME NOT NULL)";
+  $pdo->exec($sql);
+
+  $sql = "CREATE TABLE IF NOT EXISTS `comments` (
+  `id_comment` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `id_pic` INT UNSIGNED NOT NULL,
+  `comment` VARCHAR(1000) NOT NULL,
+  `login` VARCHAR(30) NOT NULL,
+  `date_creation` DATETIME NOT NULL)";
+  $pdo->exec($sql);
 }
 catch (PDOException $e) {
   die('Erreur : ' . $e->getMessage());

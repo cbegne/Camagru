@@ -14,6 +14,14 @@ class Pictures {
     $this->login = $login;
   }
 
+
+  public function getPicture() {
+    $req = $this->db->prepare("SELECT * FROM `pictures` WHERE `login` = ?");
+    $res = $req->execute(array($this->login));
+    $picture = $req->fetchAll(PDO::FETCH_ASSOC);
+    return $picture;
+  }
+
   public function addPicture() {
     date_default_timezone_set('Europe/Paris');
   	$date_creation = date("Y-m-d H:i:s");
@@ -21,10 +29,9 @@ class Pictures {
     $req->execute(array($this->login, $this->pic, $date_creation));
   }
 
-  public function getPicture() {
-    $req = $this->db->prepare("SELECT * FROM `pictures` WHERE `login` = ? ORDER BY id_pic DESC LIMIT 1");
-    $req = $this->db->prepare("SELECT * FROM `pictures` WHERE `login` = ?");
-    $res = $req->execute(array($this->login));
+  public function getAllPictures() {
+    $req = $this->db->prepare("SELECT * FROM `pictures`");
+    $res = $req->execute();
     $picture = $req->fetchAll(PDO::FETCH_ASSOC);
     return $picture;
   }

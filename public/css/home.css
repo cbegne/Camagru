@@ -1,0 +1,51 @@
+body {
+  background-image: url('../img/test2.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  font-family: monospace;
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 40px;
+  font-family: cursive;
+  color: #16A085;
+}
+
+h2 {
+  color: #2980B9;
+}
+
+input {
+  width: 200px;
+}
+
+
+.button {
+  cursor: pointer;
+  border: solid 1px transparent;
+  background-color: #2980B9;
+  color: #fff;
+}
+
+.connexion, .inscription {
+  border: 20px solid #edd15a;
+  padding: 30px 90px 30px 90px;
+}
+
+.connexion {
+  background-color: #fff099;
+}
+
+.inscription {
+  margin-top: 20px;
+  background-color: #fff099;
+}
+
+#forgot {
+  text-decoration: none;
+  color: #7F8C8D;
+}

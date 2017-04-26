@@ -6,8 +6,11 @@
       canvas       = document.querySelector('#canvas'),
       photo        = document.querySelector('#photo'),
       startbutton  = document.querySelector('#startbutton'),
+      savebutton  = document.querySelector('#savebutton'),
+      img1 = document.querySelector('#img1'),
       width = 320,
       height = 0;
+      data = 0;
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -44,11 +47,30 @@
     }
   }, false);
 
-  function takepicture() {
+  function takePicture() {
     canvas.width = width;
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-    var data = canvas.toDataURL('image/png');
+    data = canvas.toDataURL('image/png');
+  }
+
+  function addImage() {
+    var x = document.createElement("IMG");
+    x.setAttribute("src", data);
+    x.setAttribute("class", "minipic");
+    var minipic = document.getElementById('side');
+    minipic.insertBefore(x, minipic.childNodes[0]);
+  }
+
+  // function mergeImage(img, x, y) {
+  //   base_image = new Image();
+  //   base_image.src = img;
+  //   base_image.onload = function(){
+  //   canvas.getContext('2d').drawImage(base_image, x, y);
+  //   }
+  // }
+
+  function savePicture() {
     var picData = data.replace("data:image/png;base64,", "");
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../app/savepic.php", true);
@@ -57,8 +79,31 @@
   }
 
   startbutton.addEventListener('click', function(ev){
-      takepicture();
+      takePicture();
     ev.preventDefault();
   }, false);
+
+  // img1.addEventListener('click', function(ev){
+  //     mergeImage("../public/img/image1.png", 10, 10);
+  //   ev.preventDefault();
+  // }, false);
+  //
+  // img2.addEventListener('click', function(ev){
+  //     mergeImage("../public/img/image2.png", 150, 170);
+  //   ev.preventDefault();
+  // }, false);
+  //
+  // img3.addEventListener('click', function(ev){
+  //     mergeImage("../public/img/image3.png", 10, 10);
+  //   ev.preventDefault();
+  // }, false);
+
+
+  savebutton.addEventListener('click', function(ev){
+      savePicture();
+      addImage();
+    ev.preventDefault();
+  }, false);
+
 
 })();

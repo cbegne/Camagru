@@ -15,18 +15,24 @@ if ($_SESSION['logged_user'] === null)
   <body>
     <header>
       <a href="logout.php">Logout</a>
+      <a href="gallery.php">Gallery</a>
     </header>
     <div class="centre">
       <main>
         <div class="webcam">
-          <video id="video"></video>
-          <canvas id="canvas"></canvas><br />
+          <video id="video"></video><br />
+          <button id="img1"><img src="../public/img/image1.png" width=100/></button>
+          <button id="img2"><img src="../public/img/image2.png" width=100/></button>
+          <button id="img3"><img src="../public/img/image3.png" width=100/></button>
+          <button id="startbutton">Prendre une photo</button>
         </div>
-        <br /><button id="startbutton">Prendre une photo</button>
-
+        <div class="apercu">
+          <canvas id="canvas"></canvas><br />
+          <button id="savebutton">Sauvegarder</button>
+        </div>
         <!-- <img src="http://placekitten.com/g/320/261" id="photo" alt="photo"> -->
       </main><br />
-      <aside>
+      <aside id="side">
         <?php
           require '../class/pictures.class.php';
           $pic = new Pictures("", $_SESSION['logged_user']);

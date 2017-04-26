@@ -1,0 +1,46 @@
+body {
+  background-color: #edd15a;
+
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.picgallery {
+  margin: 5px;
+}
+
+.pic {
+  width: 500px;
+  margin: 5px;
+  border-top: 10px solid #b89675;
+  border-right: 10px solid #7b654f;
+  border-bottom: 10px solid #7b654f;
+  border-left: 10px solid #a67c52;
+  box-shadow: 4px 4px 0 0 rgba(189,166,72,0.6);
+}
+
+.likeandcomment {
+  display: flex;
+  align-items: center;
+}
+
+.like, .comment {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.login {
+  margin-left: 5px;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.nblike {
+  font-weight: bold;
+  font-family: monospace;
+  margin-left: 10px;
+}
