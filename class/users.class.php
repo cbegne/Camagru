@@ -75,6 +75,8 @@ class Users {
     $user = $this->getUser();
     if (!$user)
       return $this->message = "Le nom d’utilisateur entré n’appartient à aucun compte.";
+    if ($user['confirm'] == 0)
+      return $this->message = "Votre compte n'a pas encore été validé.<br /> Merci de suivre le lien reçu par mail.";
     if ($user['mot_de_passe'] != hash('whirlpool', $this->passwd))
       return $this->message = "Votre mot de passe est incorrect.";
   }

@@ -22,15 +22,27 @@ aside {
 
 #video {
   margin-right: 5px;
-  border: 2px solid black;
+  border: 2px solid #7F8C8D;
 }
 
 #canvas {
-  background-color: #edd15a;
-  border: 2px solid black;
+  background-color: #fff099;
+  border: 2px solid #7b654f;
+}
+
+.displaypic {
+  float: left;
+  position: relative;
+
 }
 
 .minipic {
   height: 100px;
   margin: 5px;
+}
+
+.delete {
+  position: absolute;
+  top: 5;
+  right: 5;
 }

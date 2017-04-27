@@ -14,8 +14,7 @@ if ($_SESSION['logged_user'] === null)
   </head>
   <body>
     <header>
-      <a href="logout.php">Logout</a>
-      <a href="gallery.php">Gallery</a>
+      <?php include '../app/header.php'; ?>
     </header>
     <div class="centre">
       <main>
@@ -30,16 +29,18 @@ if ($_SESSION['logged_user'] === null)
           <canvas id="canvas"></canvas><br />
           <button id="savebutton">Sauvegarder</button>
         </div>
-        <!-- <img src="http://placekitten.com/g/320/261" id="photo" alt="photo"> -->
       </main><br />
       <aside id="side">
         <?php
           require '../class/pictures.class.php';
-          $pic = new Pictures("", $_SESSION['logged_user']);
+          $pic = new Pictures("", "", $_SESSION['logged_user']);
           $res = $pic->getPicture();
           $res = array_reverse($res);
           foreach ($res as $value) {
-            echo '<img class=minipic src="data:image/jpeg;base64,' . base64_encode($value['pic']) . '"/>';
+            echo '<div class="displaypic">';
+            echo '<img class="minipic" src="data:image/jpeg;base64,' . base64_encode($value['pic']) . '"/>';
+            echo '<img class="deletepic" id="delete_'. $value['id_pic'] . '" onclick="deletePicture('. $value['id_pic'] . ')" src="../public/img/delete.png" />';
+            echo '</div>';
           }
         ?>
       </aside>

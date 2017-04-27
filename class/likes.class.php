@@ -34,9 +34,9 @@ class Likes {
   }
 
   public function nbLike() {
-    $req = $this->db->query("SELECT count(*) FROM `likes` WHERE `id_pic` =".$this->id_pic);
+    $req = $this->db->query("SELECT count(*) FROM `likes` WHERE `id_pic` =" . $this->id_pic);
     $nblike = $req->fetch(PDO::FETCH_ASSOC);
-    return $nblike;
+    return $nblike['count(*)'];
   }
 
 }

@@ -8,9 +8,12 @@
       startbutton  = document.querySelector('#startbutton'),
       savebutton  = document.querySelector('#savebutton'),
       img1 = document.querySelector('#img1'),
+      img2 = document.querySelector('#img2'),
+      img3 = document.querySelector('#img3'),
       width = 320,
       height = 0;
       data = 0;
+      imgselected = 0;
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -48,18 +51,48 @@
   }, false);
 
   function takePicture() {
-    canvas.width = width;
-    canvas.height = height;
-    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-    data = canvas.toDataURL('image/png');
+    if (imgselected != 0) {
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+      data = canvas.toDataURL('image/png');
+      var picData = data.replace("data:image/png;base64,", "");
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "../app/mergepic.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.send("pic="+encodeURIComponent(picData)+"&img="+imgselected);
+      xhr.onreadystatechange = function () {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          response = "data:image/png;base64,"+response;
+          console.log(response);
+          base_image = new Image();
+          base_image.src = response;
+          canvas.getContext('2d').drawImage(base_image, 0, 0, width, height);
+          canvas.toDataURL('image/png');
+          data = base_image.src;
+        }
+      }
+    }
   }
 
-  function addImage() {
+  function addMinipic(id) {
+    var div = document.createElement("DIV");
+    div.setAttribute("class", "displaypic");
+
+    var pic = document.createElement("IMG");
+    pic.setAttribute("src", data);
+    pic.setAttribute("class", "minipic");
     var x = document.createElement("IMG");
-    x.setAttribute("src", data);
-    x.setAttribute("class", "minipic");
+    x.setAttribute("src", "../public/img/delete.png");
+    x.setAttribute("class", "deletepic");
+    x.setAttribute("id", "delete_"+id);
+    x.setAttribute("onclick", "deletePicture("+id+")");
+
     var minipic = document.getElementById('side');
-    minipic.insertBefore(x, minipic.childNodes[0]);
+    minipic.insertBefore(div, minipic.childNodes[0]);
+    div.insertBefore(x, div.childNodes[0]);
+    div.insertBefore(pic, div.childNodes[0]);
   }
 
   // function mergeImage(img, x, y) {
@@ -76,6 +109,13 @@
     xhr.open("POST", "../app/savepic.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send("pic="+encodeURIComponent(picData));
+    xhr.onreadystatechange = function () {
+      if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        var id_pic = response['id_pic'];
+        addMinipic(id_pic)
+      }
+    }
   }
 
   startbutton.addEventListener('click', function(ev){
@@ -83,27 +123,37 @@
     ev.preventDefault();
   }, false);
 
-  // img1.addEventListener('click', function(ev){
-  //     mergeImage("../public/img/image1.png", 10, 10);
-  //   ev.preventDefault();
-  // }, false);
-  //
-  // img2.addEventListener('click', function(ev){
-  //     mergeImage("../public/img/image2.png", 150, 170);
-  //   ev.preventDefault();
-  // }, false);
-  //
-  // img3.addEventListener('click', function(ev){
-  //     mergeImage("../public/img/image3.png", 10, 10);
-  //   ev.preventDefault();
-  // }, false);
+  img1.addEventListener('click', function(ev){
+    imgselected = 1;
+      // mergeImage("../public/img/image1.png", 10, 10);
+    ev.preventDefault();
+  }, false);
+
+  img2.addEventListener('click', function(ev){
+    imgselected = 2;
+      // mergeImage("../public/img/image2.png", 150, 170);
+    ev.preventDefault();
+  }, false);
+
+  img3.addEventListener('click', function(ev){
+    imgselected = 3;
+      // mergeImage("../public/img/image3.png", 10, 10);
+    ev.preventDefault();
+  }, false);
 
 
   savebutton.addEventListener('click', function(ev){
+    if (data != 0)
       savePicture();
-      addImage();
     ev.preventDefault();
   }, false);
 
 
 })();
+
+ function deletePicture(id) {
+   var elem = document.getElementById('delete_'+id).parentNode.remove();
+   var xhr = new XMLHttpRequest();
+   xhr.open("GET", "../app/deletepic.php?id_pic="+id, true);
+   xhr.send();
+ }

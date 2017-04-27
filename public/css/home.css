@@ -34,15 +34,11 @@ input {
 .connexion, .inscription {
   border: 20px solid #edd15a;
   padding: 30px 90px 30px 90px;
-}
-
-.connexion {
   background-color: #fff099;
 }
 
 .inscription {
   margin-top: 20px;
-  background-color: #fff099;
 }
 
 #forgot {

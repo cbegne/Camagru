@@ -13,13 +13,12 @@ if ($_SESSION['logged_user'] === null)
  </head>
  <body>
    <header>
-      <a href="logout.php">Logout</a>
-      <a href="webcam.php">Camagru</a>
+     <?php include '../app/header.php'; ?>
    </header>
    <main>
      <?php
        require '../class/pictures.class.php';
-       $pic = new Pictures("", "");
+       $pic = new Pictures("", "", "");
        $res = $pic->getAllPictures();
        $res = array_reverse($res);
        require '../class/likes.class.php';
@@ -36,7 +35,7 @@ if ($_SESSION['logged_user'] === null)
         else
           echo '<button onclick="addLike('. $value['id_pic'] . ')" class="like" ><img id="like_'. $value['id_pic'] . '" src="../public/img/like_red.png"/></button>';
          echo '<button class="comment"><img id="comment_'. $value['id_pic'] . '" src="../public/img/comment.png"/></button>';
-         echo '<span class="nblike" id="nblike_'. $value['id_pic'] . '">'. $nblike['count(*)'] . ' j\'aime</span>';
+         echo '<span class="nblike" id="nblike_'. $value['id_pic'] . '">'. $nblike . ' j\'aime</span>';
          echo '</div></div>';
        }
      ?>
