@@ -69,10 +69,3 @@ require_once '../class/users.class.php';
   ?>
 </body>
 </html>
-
-
-<?php
-
-$pdo = null;
-
- ?>

@@ -10,15 +10,14 @@ if ($_SESSION['logged_user'] === null)
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../public/css/webcam.css">
+    <link rel="stylesheet" href="../public/css/headerfooter.css">
     <title>Camagru</title>
   </head>
   <body>
-    <header>
-      <?php include '../app/header.php'; ?>
-    </header>
+    <?php include '../app/header.php'; ?>
     <div class="centre">
       <main>
-        <div class="webcam">
+        <div class="webcam" id="column1">
           <video id="video"></video><br />
           <button id="img1"><img src="../public/img/image1.png" width=100/></button>
           <button id="img2"><img src="../public/img/image2.png" width=100/></button>
@@ -46,6 +45,7 @@ if ($_SESSION['logged_user'] === null)
       </aside>
       <script type="text/javascript" src="../public/js/webcam.js"></script>
     </div>
+    <footer></footer>
   </body>
 </html>
 

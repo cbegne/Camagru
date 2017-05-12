@@ -52,6 +52,10 @@
 
   function takePicture() {
     if (imgselected != 0) {
+      var error = document.getElementById('error');
+      if (error !== null) {
+        error.remove();
+      }
       canvas.width = width;
       canvas.height = height;
       canvas.getContext('2d').drawImage(video, 0, 0, width, height);
@@ -65,7 +69,7 @@
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
           var response = JSON.parse(xhr.responseText);
           response = "data:image/png;base64,"+response;
-          console.log(response);
+          // console.log(response);
           base_image = new Image();
           base_image.src = response;
           canvas.getContext('2d').drawImage(base_image, 0, 0, width, height);
@@ -73,6 +77,12 @@
           data = base_image.src;
         }
       }
+    }
+    else if (document.getElementById('error') === null) {
+      var error = document.createElement("DIV");
+      error.setAttribute("id", "error");
+      error.innerHTML = "Sélectionnez une image pour prendre <br />une photo.";
+      document.getElementById('column1').appendChild(error);
     }
   }
 
@@ -95,14 +105,6 @@
     div.insertBefore(pic, div.childNodes[0]);
   }
 
-  // function mergeImage(img, x, y) {
-  //   base_image = new Image();
-  //   base_image.src = img;
-  //   base_image.onload = function(){
-  //   canvas.getContext('2d').drawImage(base_image, x, y);
-  //   }
-  // }
-
   function savePicture() {
     var picData = data.replace("data:image/png;base64,", "");
     var xhr = new XMLHttpRequest();
@@ -113,7 +115,7 @@
       if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
         var response = JSON.parse(xhr.responseText);
         var id_pic = response['id_pic'];
-        addMinipic(id_pic)
+        addMinipic(id_pic);
       }
     }
   }
@@ -125,19 +127,16 @@
 
   img1.addEventListener('click', function(ev){
     imgselected = 1;
-      // mergeImage("../public/img/image1.png", 10, 10);
     ev.preventDefault();
   }, false);
 
   img2.addEventListener('click', function(ev){
     imgselected = 2;
-      // mergeImage("../public/img/image2.png", 150, 170);
     ev.preventDefault();
   }, false);
 
   img3.addEventListener('click', function(ev){
     imgselected = 3;
-      // mergeImage("../public/img/image3.png", 10, 10);
     ev.preventDefault();
   }, false);
 

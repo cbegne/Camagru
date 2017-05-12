@@ -20,7 +20,7 @@ try {
 
   $sql = "CREATE TABLE IF NOT EXISTS `users` (
   `id_user` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `login` VARCHAR(30) NOT NULL,
+  `login` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
   `mot_de_passe` VARCHAR(255) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `date_creation` DATETIME NOT NULL,
@@ -45,7 +45,7 @@ try {
   $sql = "CREATE TABLE IF NOT EXISTS `comments` (
   `id_comment` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `id_pic` INT UNSIGNED NOT NULL,
-  `comment` VARCHAR(1000) NOT NULL,
+  `comment` VARCHAR(255) NOT NULL,
   `login` VARCHAR(30) NOT NULL,
   `date_creation` DATETIME NOT NULL)";
   $pdo->exec($sql);

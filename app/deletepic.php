@@ -6,4 +6,6 @@
   $db = new Pictures($id_pic, "", $_SESSION['logged_user']);
   $db->deletePicture();
 
+// delete comments and likes
+
  ?>

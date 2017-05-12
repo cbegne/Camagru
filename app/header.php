@@ -1,19 +1,11 @@
-
-<html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../public/css/header.css">
-  </head>
-  <header>
+<header>
     <div class="container">
-      <h1>Camagru</a></h1>
+      <div class="title">Camagru</a></div>
       <nav>
-        <a id="logout" href="logout.php">Logout</a>
-        <a id="webcam" href="webcam.php">Camagru</a>
+        <a id="webcam" href="webcam.php">Photoshoot</a>
         <a id="mygallery" href="mygallery.php">Ma gallerie</a>
-        <a id="gallery" href="gallery.php">Gallerie</a>
+        <a id="gallery" href="gallery.php?page=1">Gallerie</a>
+        <a id="logout" href="logout.php">Deconnexion</a>
       </nav>
     </div>
-  </header>
-  <div class="container"></div>
-</html>
+</header>

@@ -11,6 +11,7 @@ if ($_SESSION['logged_user'] === null)
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="../public/css/gallery.css">
+  <link rel="stylesheet" href="../public/css/headerfooter.css">
   <title>Camagru Gallery</title>
 </head>
 <body>

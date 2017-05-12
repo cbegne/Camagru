@@ -1,6 +1,3 @@
-body {
-
-}
 
 .centre {
   display: flex;
@@ -33,7 +30,6 @@ aside {
 .displaypic {
   float: left;
   position: relative;
-
 }
 
 .minipic {
@@ -41,8 +37,38 @@ aside {
   margin: 5px;
 }
 
-.delete {
+.deletepic {
   position: absolute;
+  cursor: pointer;
   top: 5;
   right: 5;
+}
+
+#savebutton, #startbutton {
+  cursor: pointer;
+  border: solid 1px transparent;
+  background-color: #16A085;
+  color: #fff;
+  font-family: monospace;
+  font-size: 105%;
+}
+
+#img1, #img2, #img3, #startbutton {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+  background-color: #edd15a;
+}
+
+#startbutton {
+  margin-top: 5px;
+}
+
+#error {
+  margin-top: 5px;
+  color: red;
+  text-align: center;
 }

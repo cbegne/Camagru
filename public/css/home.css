@@ -16,7 +16,7 @@ h1 {
 }
 
 h2 {
-  color: #2980B9;
+  color: #787878;
 }
 
 input {
@@ -27,7 +27,7 @@ input {
 .button {
   cursor: pointer;
   border: solid 1px transparent;
-  background-color: #2980B9;
+  background-color: #16A085;
   color: #fff;
 }
 

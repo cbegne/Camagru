@@ -33,11 +33,17 @@ class Pictures {
     return $id_pic;
   }
 
-  public function getAllPictures() {
-    $req = $this->db->prepare("SELECT * FROM `pictures`");
+  public function getPicturesByPage($page, $nbpicbypage) {
+    $req = $this->db->prepare("SELECT * FROM `pictures` ORDER BY `date_creation` DESC LIMIT " . $page . ", " . $nbpicbypage);
     $res = $req->execute();
     $picture = $req->fetchAll(PDO::FETCH_ASSOC);
     return $picture;
+  }
+
+  public function nbPictures() {
+    $req = $this->db->query("SELECT count(*) FROM `pictures`");
+    $nbpic = $req->fetch(PDO::FETCH_ASSOC);
+    return $nbpic['count(*)'];
   }
 
   public function deletePicture() {
