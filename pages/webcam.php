@@ -14,7 +14,7 @@ if ($_SESSION['logged_user'] === null)
     <title>Camagru</title>
   </head>
   <body>
-    <?php include '../app/header.php'; ?>
+    <?php include 'header.php'; ?>
     <div class="centre">
       <main>
         <div class="webcam" id="column1">
@@ -23,6 +23,11 @@ if ($_SESSION['logged_user'] === null)
           <button id="img2"><img src="../public/img/image2.png" width=100/></button>
           <button id="img3"><img src="../public/img/image3.png" width=100/></button>
           <button id="startbutton">Prendre une photo</button>
+          <p>OU</p>
+          <form method="post" action="../app/uploadpic.php" enctype="multipart/form-data">
+            <input type="file" name="uploadpic">
+            <input type="hidden" name="MAX_FILE_SIZE" value="512000" />  <!-- poids max 500ko (1ko = 1024o) -->
+          </form>
         </div>
         <div class="apercu">
           <canvas id="canvas"></canvas><br />
@@ -35,13 +40,12 @@ if ($_SESSION['logged_user'] === null)
           $pic = new Pictures("", "", $_SESSION['logged_user']);
           $res = $pic->getPicture();
           $res = array_reverse($res);
-          foreach ($res as $value) {
-            echo '<div class="displaypic">';
-            echo '<img class="minipic" src="data:image/jpeg;base64,' . base64_encode($value['pic']) . '"/>';
-            echo '<img class="deletepic" id="delete_'. $value['id_pic'] . '" onclick="deletePicture('. $value['id_pic'] . ')" src="../public/img/delete.png" />';
-            echo '</div>';
-          }
-        ?>
+          foreach ($res as $value): ?>
+            <div class="displaypic">
+              <img class="minipic" src="data:image/jpeg;base64,<?= base64_encode($value['pic']) ?>"/>
+              <img class="deletepic" id="delete_<?= $value['id_pic']  ?>" onclick="deletePicture(<?= $value['id_pic']  ?>)" src="../public/img/delete.png" />
+            </div>
+          <? endforeach; ?>
       </aside>
       <script type="text/javascript" src="../public/js/webcam.js"></script>
     </div>

@@ -1,24 +1,32 @@
+main {
+  display: flex;
+  margin: 1rem;
+}
+
+aside {
+  margin: 0.5rem;
+}
 
 .centre {
   display: flex;
 }
 
-main {
-  display: flex;
-  margin: 10px;
-}
-
-aside {
-  margin: 5px;
-}
-
 .webcam, .apercu {
   display: flex;
   flex-direction: column;
+  vertical-align: middle;
+}
+
+.webcam p {
+  color: #16A085;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  margin: 0.5rem;
 }
 
 #video {
-  margin-right: 5px;
+  margin-right: 0.5rem;
   border: 2px solid #7F8C8D;
 }
 
@@ -33,8 +41,8 @@ aside {
 }
 
 .minipic {
-  height: 100px;
-  margin: 5px;
+  height: 10rem;
+  margin: 0.5rem;
 }
 
 .deletepic {
@@ -50,11 +58,11 @@ aside {
   background-color: #16A085;
   color: #fff;
   font-family: monospace;
-  font-size: 105%;
+  font-size: 1.5rem;
 }
 
 #img1, #img2, #img3, #startbutton {
-  margin-right: 5px;
+  margin-right: 0.5rem;
   cursor: pointer;
 }
 
@@ -64,11 +72,11 @@ button:focus {
 }
 
 #startbutton {
-  margin-top: 5px;
+  margin-top: 0.5rem;
 }
 
 #error {
-  margin-top: 5px;
+  margin-top: 0.5rem;
   color: red;
   text-align: center;
 }

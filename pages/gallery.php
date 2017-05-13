@@ -2,7 +2,7 @@
 
 session_start() or die("Failed to resume session\n");
 if ($_SESSION['logged_user'] === null)
-    header("Location: ../index.php");
+  header("Location: ../index.php");
 ?>
 
 <html>
@@ -13,29 +13,34 @@ if ($_SESSION['logged_user'] === null)
    <title>Camagru Gallery</title>
  </head>
  <body>
-   <?php include '../app/header.php'; ?>
-   <main>
+  <?php include 'header.php'; ?>
+  <main>
 
-     <?php
-       require '../class/pictures.class.php';
-       $pic = new Pictures("", "", "");
-       $nbpicbypage = 5;
-       $page = isset($_GET['page']) ? $_GET['page'] : 1;
-       $pics = $pic->getPicturesByPage($page, $nbpicbypage);
-       $nbpic = $pic->nbPictures();
-       $nbpage = ceil($nbpic / $nbpicbypage);
+    <?php
+      require '../class/pictures.class.php';
+      $pic = new Pictures("", "", "");
+      $nbpicbypage = 5;
+      $page = isset($_GET['page']) ? $_GET['page'] : 1;
+      $nbpic = $pic->nbPictures();
+      $nbpage = ceil($nbpic / $nbpicbypage);
+      if ($nbpic == 0): ?>
+        <p>Prenez votre première photo dans le Photobooth !</p>
+      <? elseif ($page > $nbpage):
+          echo '<script> location.replace("gallery.php?page=1") </script>';
+      else:
+        $pics = $pic->getPicturesByPage((($page - 1) * $nbpicbypage), $nbpicbypage); // LIMIT MySQL starts at 0, e.g pics from 0 (not included) to 5 (included)
 
-       require '../class/likes.class.php';
-       require '../class/comments.class.php';
+        require '../class/likes.class.php';
+        require '../class/comments.class.php';
 
-       foreach ($pics as $value):
-         $id_pic = $value['id_pic'];
-         $user = $_SESSION['logged_user'];
-         $like = new Likes($id_pic, $user);
-         $liked = $like->getLike();
-         $nblike = $like->nbLike();
-         $comment = new Comments($id_pic, "", "");
-         $comments = $comment->getComment();
+        foreach ($pics as $value):
+          $id_pic = $value['id_pic'];
+          $user = $_SESSION['logged_user'];
+          $like = new Likes($id_pic, $user);
+          $liked = $like->getLike();
+          $nblike = $like->nbLike();
+          $comment = new Comments($id_pic, "", "");
+          $comments = $comment->getComment();
       ?>
          <div class="picgallery">
            <div class="login" id="login_<?= $id_pic ?>"><?= $value['login'] ?></div>
@@ -46,7 +51,7 @@ if ($_SESSION['logged_user'] === null)
           <? else: ?>
             <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like_red.png"/></button>
           <? endif;?>
-          <button class="comment"><img id="comment_<?= $id_pic ?>" src="../public/img/comment.png"/></button>
+          <label for="new_comment_<?= $id_pic ?>" class="comment"><img id="comment_<?= $id_pic ?>" src="../public/img/comment.png"/></label>
           <span class="nblike" id="nblike_<?= $id_pic ?>"><?= $nblike ?> j'aime</span>
           </div>
           <div id="firstcomment_<?= $id_pic ?>">
@@ -68,6 +73,7 @@ if ($_SESSION['logged_user'] === null)
       <? if ($page != $nbpage): ?>
         <a href="gallery.php?page=<?= ($page + 1) ?>" class="next">⇨</a>
       <? endif; ?>
+    <? endif; ?>
     </div>
    </main>
    <footer></footer>
