@@ -28,14 +28,24 @@ class Users {
     return $user;
   }
 
+  private function checkPassword() {
+    if (strlen($this->passwd) > 255)
+      return $this->message = "Votre mot de passe ne doit pas excéder 30 caractères.";
+    if ($this->passwd != $this->passwdVerif)
+      return $this->message = "Les mots de passe ne sont pas identiques.";
+    if (!preg_match('/(?=.*[0-9])(?=.*[A-Za-z]).{7,30}/', $this->passwd))
+      return $this->message = "Votre mot de passe doit être composé a minima de 7 caractères, dont une lettre et un chiffre.";
+  }
+
   private function checkNewUser() {
+    if (strlen($this->login) > 30)
+      return $this->message = "Votre login ne doit pas excéder 30 caractères.";
     $user = $this->getUser();
     if ($user)
       return $this->message = "Ce nom d'utilisateur est déjà utilisé.";
-    if ($this->passwd != $this->passwdVerif)
-    return $this->message = "Les mots de passe ne sont pas identiques.";
-    // if (strlen($this->passwd) < 8 or preg_match('/[A-Z]+[a-z]+[0-9]+/', $this->passwd))
-    //   return $this->message = "Votre mot de passe doit être composé a minima de 7 caractères, dont un chiffre et une majuscule.";
+    self::checkPassword();
+    if ($this->message != null)
+      return ;
     if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false)
       return $this->message = "Votre mail n'est pas valide.";
   }
@@ -45,19 +55,15 @@ class Users {
     if ($this->message)
       return ;
     $token = bin2hex(random_bytes(16));
-    $headers  = 'MIME-Version: 1.0' . "\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\n";
-    $headers .= "From: camagru-noreply@student.42.fr\n";
     $pwrurl = "localhost:8080/camagru/pages/home.php?q=" . $token;
-    $mailbody = "<html><body><p>Bonjour " . $this->login . ",</p><p>Pour confirmer votre compte pour Camagru, cliquez sur le lien suivant :</p>" . "<a href=http://" . $pwrurl . ">" . $pwrurl . "</a><p>A bientôt !</p></body></html>";
-    if (mail($this->email, "Camagru - Confirmez votre compte", $mailbody, $headers))
-      $this->message = "Un mail vous a été envoyé pour confirmer votre compte.";
-    else
-      return $this->message = "Le mail d'inscription n'a pas pu être envoyé.";
     date_default_timezone_set('Europe/Paris');
   	$date_creation = date("Y-m-d H:i:s");
-    $req = $this->db->prepare("INSERT INTO `users` (`login`, `mot_de_passe`, `email`, `date_creation`, `token`) VALUES (?, ?, ?, ?, ?)");
-    $req->execute(array($this->login, hash('whirlpool', $this->passwd), $this->email, $date_creation, $token));
+    $token_expires = date("Y-m-d H:i:s", strtotime($date_creation . ' + 2 days'));
+    $req = $this->db->prepare("INSERT INTO `users` (`login`, `mot_de_passe`, `email`, `date_creation`, `token`, `token_expires`) VALUES (?, ?, ?, ?, ?, ?)");
+    $req->execute(array($this->login, hash('whirlpool', $this->passwd), $this->email, $date_creation, $token, $token_expires));
+    $req = $this->db->prepare("DELETE FROM `users` WHERE `token_expires` < NOW() AND `confirm` = 0");
+    $req->execute();
+    require '../app/mailconfirm.php';
   }
 
   public function confirmUser() {
@@ -65,9 +71,9 @@ class Users {
     $res = $req->execute(array($this->token));
     $user = $req->fetch(PDO::FETCH_ASSOC);
     if (!$user)
-      return $this->message = "Votre compte a déjà été validé ou le lien n'a pas été correctement suivi.";
-    $req = $this->db->prepare("UPDATE `users` SET `confirm` = ?, `token` = ? WHERE `token` = ?");
-    $req->execute(array(1, NULL, $this->token));
+      return $this->message = "Votre compte a déjà été validé ou le lien a expiré.";
+    $req = $this->db->prepare("UPDATE `users` SET `confirm` = ?, `token` = ?, `token_expires` = ? WHERE `token` = ?");
+    $req->execute(array(1, NULL, NULL, $this->token));
     $this->message = "Votre compte a bien été confirmé. Bienvenue " . $user['login'] . " !";
   }
 
@@ -87,27 +93,28 @@ class Users {
       return $this->message = "Le nom d’utilisateur entré n’appartient à aucun compte.";
     $email = $user['email'];
     $token = bin2hex(random_bytes(16));
-    $req = $this->db->prepare("UPDATE `users` SET `token` = ? WHERE `login` = ?");
-    $req->execute(array($token, $this->login));
-    $headers  = 'MIME-Version: 1.0' . "\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\n";
-    $headers .= "From: camagru-noreply@student.42.fr\n";
     $pwrurl = "localhost:8080/camagru/pages/password.php?q=" . $token;
-    $mailbody = "<html><body><p>Bonjour " . $this->login . ",</p><p>Pour réinitialiser votre mot de passe pour Camagru, cliquez sur le lien suivant :</p>" . "<a href=http://" . $pwrurl . ">" . $pwrurl . "</a><p>A bientôt !</p></body></html>";
-    if (mail($email, "Camagru - Mot de passe oublié", $mailbody, $headers))
-      $this->message = "Un mail vous a été envoyé pour réinitialiser votre mot de passe.";
-    else
-      $this->message = "Le mail de réinitialisation n'a pas pu être envoyé.";
+    date_default_timezone_set('Europe/Paris');
+  	$date_creation = date("Y-m-d H:i:s");
+    $token_expires = date("Y-m-d H:i:s", strtotime($date_creation . ' + 2 minutes'));
+    $req = $this->db->prepare("UPDATE `users` SET `token` = ?, `token_expires` = ? WHERE `login` = ?");
+    $req->execute(array($token, $token_expires, $this->login));
+    $req = $this->db->prepare("UPDATE `users` SET `token` = ?, `token_expires` = ? WHERE `token_expires` < NOW() AND `confirm` = 1");
+    $req->execute(array(NULL, NULL));
+    require '../app/mailpassword.php';
   }
 
   public function resetPassword() {
+    self::checkPassword();
+    if ($this->message != null)
+      return ;
     $req = $this->db->prepare("SELECT * FROM `users` WHERE `token` = ?");
     $res = $req->execute(array($this->token));
     $user = $req->fetch(PDO::FETCH_ASSOC);
     if (!$user)
-      return $this->message = "Une erreur s'est produite. Veuillez vérifier que le lien envoyé a bien été suivi.";
-    $req = $this->db->prepare("UPDATE `users` SET `mot_de_passe` = ?, `token` = ? WHERE `token` = ?");
-    $req->execute(array(hash('whirlpool', $this->passwd), NULL, $this->token));
+      return $this->message = "Le lien a expiré ou n'a pas été correctement suivi.";
+    $req = $this->db->prepare("UPDATE `users` SET `mot_de_passe` = ? WHERE `token` = ?");
+    $req->execute(array(hash('whirlpool', $this->passwd), $this->token));
     $this->message = "Votre mot de passe a été modifié.";
   }
 }

@@ -22,10 +22,11 @@ try {
   `id_user` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `login` VARCHAR(30) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
   `mot_de_passe` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
   `date_creation` DATETIME NOT NULL,
   `confirm` BOOLEAN DEFAULT 0 NOT NULL,
-  `token` VARCHAR(255))";
+  `token` VARCHAR(255),
+  `token_expires` DATETIME)";
   $pdo->exec($sql);   // use exec() because no results are returned
 
   $sql = "CREATE TABLE IF NOT EXISTS `pictures` (

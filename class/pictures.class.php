@@ -17,7 +17,7 @@ class Pictures {
   }
 
   public function getPicture() {
-    $req = $this->db->prepare("SELECT * FROM `pictures` WHERE `login` = ?");
+    $req = $this->db->prepare("SELECT * FROM `pictures` WHERE `login` = ? ORDER BY `date_creation` DESC LIMIT 20");
     $res = $req->execute(array($this->login));
     $picture = $req->fetchAll(PDO::FETCH_ASSOC);
     return $picture;
@@ -40,8 +40,21 @@ class Pictures {
     return $picture;
   }
 
+  public function getPicturesByPageByLogin($page, $nbpicbypage) {
+    $req = $this->db->prepare("SELECT * FROM `pictures` WHERE `login` = ? ORDER BY `date_creation` DESC LIMIT " . $page . ", " . $nbpicbypage);
+    $res = $req->execute(array($this->login));
+    $picture = $req->fetchAll(PDO::FETCH_ASSOC);
+    return $picture;
+  }
+
   public function nbPictures() {
     $req = $this->db->query("SELECT count(*) FROM `pictures`");
+    $nbpic = $req->fetch(PDO::FETCH_ASSOC);
+    return $nbpic['count(*)'];
+  }
+
+  public function nbPicturesByLogin() {
+    $req = $this->db->query("SELECT count(*) FROM `pictures` WHERE `login` = '" . $this->login . "'");
     $nbpic = $req->fetch(PDO::FETCH_ASSOC);
     return $nbpic['count(*)'];
   }
@@ -49,6 +62,12 @@ class Pictures {
   public function deletePicture() {
     $req = $this->db->prepare("DELETE FROM `pictures` WHERE `id_pic` = ? AND `login` = ?");
     $req->execute(array($this->id_pic, $this->login));
+    require 'likes.class.php';
+    $like = new Likes($this->id_pic, "");
+    $like->deleteAllLike();
+    require 'comments.class.php';
+    $comment = new Comments($this->id_pic, "", "");
+    $comment->deleteAllComment();
   }
 }
 

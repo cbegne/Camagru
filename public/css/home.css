@@ -1,18 +1,12 @@
 body {
-  background-image: url('../img/test2.jpg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  font-family: monospace;
   display: flex;
   vertical-align: middle;
   align-items: center;
   flex-direction: column;
 }
 
-h1 {
-  font-size: 40px;
-  font-family: cursive;
-  color: #16A085;
+#maintitle {
+  font-size: 5rem;
 }
 
 h2 {
@@ -20,28 +14,46 @@ h2 {
 }
 
 input {
-  width: 200px;
+  width: 20rem;
+  outline:none;
 }
-
 
 .button {
   cursor: pointer;
   border: solid 1px transparent;
   background-color: #16A085;
   color: #fff;
+  outline:none;
+}
+
+.button:hover {
+  background-color: #18b294;
 }
 
 .connexion, .inscription {
   border: 20px solid #edd15a;
-  padding: 30px 90px 30px 90px;
+  padding: 3rem 9rem 3rem 9rem;
   background-color: #fff099;
 }
 
 .inscription {
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
-#forgot {
+#forgot, #galleryaccess {
   text-decoration: none;
   color: #7F8C8D;
+}
+
+.galleryaccess {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#forgot:hover, #galleryaccess:hover {
+  color: #686f70;
+}
+
+#buttonforgot {
+  margin-top: 1rem;
 }

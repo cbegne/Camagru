@@ -28,15 +28,19 @@ class Likes {
     $req->execute(array($this->id_pic, $this->login, $date_creation));
   }
 
+  public function nbLike() {
+    $req = $this->db->query("SELECT count(*) FROM `likes` WHERE `id_pic` = $this->id_pic");
+    $nblike = $req->fetch(PDO::FETCH_ASSOC);
+    return $nblike['count(*)'];
+  }
   public function deleteLike() {
     $req = $this->db->prepare("DELETE FROM `likes` WHERE `id_pic` = ? AND `login` = ?");
     $req->execute(array($this->id_pic, $this->login));
   }
 
-  public function nbLike() {
-    $req = $this->db->query("SELECT count(*) FROM `likes` WHERE `id_pic` = $this->id_pic");
-    $nblike = $req->fetch(PDO::FETCH_ASSOC);
-    return $nblike['count(*)'];
+  public function deleteAllLike() {
+    $req = $this->db->prepare("DELETE FROM `likes` WHERE `id_pic` = ?");
+    $req->execute(array($this->id_pic));
   }
 
 }

@@ -1,4 +1,4 @@
-main {
+.allgallery {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +9,7 @@ main {
   padding: 1rem 8rem 1rem 8rem;
   background-color: white;
   border: 1px solid #ccc;
+  position: relative;
 }
 
 .pic {
@@ -18,7 +19,13 @@ main {
   border-right: 1rem solid #7b654f;
   border-bottom: 1rem solid #7b654f;
   border-left: 1rem solid #a67c52;
-  /*box-shadow: 4px 4px 0 0 rgba(189,166,72,0.6);*/
+}
+
+.deletepic {
+  position: absolute;
+  cursor: pointer;
+  top: 5;
+  right: 5;
 }
 
 .likeandcomment {
@@ -36,12 +43,12 @@ main {
 .login {
   margin-left: 0.5rem;
   font-weight: bold;
-  font-family: monospace;
+  font-family: Gill Sans, sans-serif;
 }
 
 .nblike {
   font-weight: bold;
-  font-family: monospace;
+  font-family: Gill Sans, sans-serif;
   margin-left: 1rem;
 }
 

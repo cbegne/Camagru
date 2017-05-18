@@ -43,4 +43,9 @@ class Comments {
       require '../app/mailcomment.php';
     }
   }
+
+  public function deleteAllComment() {
+    $req = $this->db->prepare("DELETE FROM `comments` WHERE `id_pic` = ?");
+    $req->execute(array($this->id_pic));
+  }
 }

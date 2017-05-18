@@ -3,6 +3,7 @@
 session_start() or die("Failed to resume session\n");
 if ($_SESSION['logged_user'] === null)
   header("Location: ../index.php");
+
 ?>
 
 <html>
@@ -13,20 +14,22 @@ if ($_SESSION['logged_user'] === null)
    <title>Camagru Gallery</title>
  </head>
  <body>
-   <?php include 'header.php'; ?>
-   <main>
+  <?php include 'header.php'; ?>
+  <main class="allgallery">
 
-     <?php
+    <?php
       require '../class/pictures.class.php';
-      $pic = new Pictures("", "", $_SESSION['logged_user']); // difference with gallery.php = only pics from user logged in
+      $pic = new Pictures("", "", $_SESSION['logged_user']);
       $nbpicbypage = 5;
       $page = isset($_GET['page']) ? $_GET['page'] : 1;
-      $pics = $pic->getPicturesByPage((($page - 1) * $nbpicbypage), $nbpicbypage); // LIMIT MySQL starts at 0, e.g pics from 0 (not included) to 5 (included)
-      $nbpic = $pic->nbPictures();
+      $nbpic = $pic->nbPicturesByLogin();
+      $nbpage = ceil($nbpic / $nbpicbypage);
       if ($nbpic == 0): ?>
         <p>Prenez votre première photo dans le Photobooth !</p>
-      <? else:
-        $nbpage = ceil($nbpic / $nbpicbypage);
+      <? elseif ($page > $nbpage):
+          echo '<script> location.replace("mygallery.php?page=1") </script>';
+      else:
+        $pics = $pic->getPicturesByPageByLogin((($page - 1) * $nbpicbypage), $nbpicbypage); // LIMIT MySQL starts at 0, e.g pics from 0 (not included) to 5 (included)
 
         require '../class/likes.class.php';
         require '../class/comments.class.php';
@@ -43,12 +46,17 @@ if ($_SESSION['logged_user'] === null)
          <div class="picgallery">
            <div class="login" id="login_<?= $id_pic ?>"><?= $value['login'] ?></div>
            <img class="pic" id="pic_<?= $id_pic ?>" src="data:image/jpeg;base64,<?= base64_encode($value['pic'])?>"/>
+           <img class="deletepic" id="delete_<?= $id_pic ?>" onclick="deletePicture(<?= $id_pic ?>)" src="../public/img/delete.png" />
          <div class="likeandcomment">
-          <? if ($liked === false): ?>
-            <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like.png"/></button>
+          <? if ($_SESSION['logged_user'] !== null): ?>
+            <? if ($liked === false): ?>
+              <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like.png"/></button>
+            <? else: ?>
+              <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like_red.png"/></button>
+            <? endif;?>
           <? else: ?>
-            <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like_red.png"/></button>
-          <? endif;?>
+            <button class="like" ><img src="../public/img/like.png"/></button>
+          <? endif; ?>
           <label for="new_comment_<?= $id_pic ?>" class="comment"><img id="comment_<?= $id_pic ?>" src="../public/img/comment.png"/></label>
           <span class="nblike" id="nblike_<?= $id_pic ?>"><?= $nblike ?> j'aime</span>
           </div>
@@ -58,20 +66,22 @@ if ($_SESSION['logged_user'] === null)
             <? endforeach; ?>
           </div>
           <form method="post">
-         <input type="text" onkeypress="{if (event.keyCode == 13) { event.preventDefault(); addComment(<?= $id_pic ?>, this, '<?= $user ?>')}}"
+          <?php if ($_SESSION['logged_user'] !== null): ?>
+            <input type="text" maxlength="255" onkeypress="{if (event.keyCode == 13) { event.preventDefault(); addComment(<?= $id_pic ?>, this, '<?= $user ?>')}}"
                 class="inputcomment" id="new_comment_<?= $id_pic ?>" name="new_comment_<?= $id_pic ?>" placeholder="Ajouter un commentaire...">
+          <? endif; ?>
          </form>
          </div>
        <? endforeach; ?>
     <div class="pages">
       <? if ($page != 1): ?>
-        <a href="gallery.php?page=<?= ($page - 1) ?>" class="previous">⇦</a>
+        <a href="mygallery.php?page=<?= ($page - 1) ?>" class="previous">⇦</a>
       <? endif; ?>
       <span class="pagenumber"><b><?= $page ?></b></span>
       <? if ($page != $nbpage): ?>
-        <a href="gallery.php?page=<?= ($page + 1) ?>" class="next">⇨</a>
+        <a href="mygallery.php?page=<?= ($page + 1) ?>" class="next">⇨</a>
       <? endif; ?>
-      <? endif; ?>
+    <? endif; ?>
     </div>
    </main>
    <footer></footer>

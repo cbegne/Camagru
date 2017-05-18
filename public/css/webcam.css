@@ -1,38 +1,36 @@
-main {
+.allwebcam {
   display: flex;
-  margin: 1rem;
+  min-height: 92vh;
 }
 
 aside {
   margin: 0.5rem;
 }
 
-.centre {
+.webcamapercu {
   display: flex;
+  margin: 1rem;
 }
 
 .webcam, .apercu {
   display: flex;
   flex-direction: column;
   vertical-align: middle;
-}
-
-.webcam p {
-  color: #16A085;
-  width: 100%;
-  text-align: center;
-  font-size: 2rem;
-  margin: 0.5rem;
+  margin-right: 0.5rem;
+  width: 32rem;
 }
 
 #video {
-  margin-right: 0.5rem;
   border: 2px solid #7F8C8D;
+  margin-bottom: 0.5rem;
+  height: 24rem;
 }
 
 #canvas {
   background-color: #fff099;
   border: 2px solid #7b654f;
+  height: 24rem;
+  margin-bottom: 0.5rem;
 }
 
 .displaypic {
@@ -52,26 +50,28 @@ aside {
   right: 5;
 }
 
-#savebutton, #startbutton {
+#savebutton, #startbutton, #uploadsubmitbutton {
   cursor: pointer;
   border: solid 1px transparent;
   background-color: #16A085;
   color: #fff;
-  font-family: monospace;
+  font-family: Gill Sans, sans-serif;
   font-size: 1.5rem;
-}
-
-#img1, #img2, #img3, #startbutton {
-  margin-right: 0.5rem;
-  cursor: pointer;
-}
-
-button:focus {
+  width: 32rem;
   outline: none;
-  background-color: #edd15a;
+  margin-bottom: 0.5rem;
 }
 
-#startbutton {
+#savebutton:hover, #startbutton:hover, #uploadsubmitbutton:hover {
+  background-color: #18b294;
+}
+
+#img1, #img2, #img3 {
+  cursor: pointer;
+  outline: none;
+}
+
+#uploadsubmitbutton {
   margin-top: 0.5rem;
 }
 
@@ -79,4 +79,76 @@ button:focus {
   margin-top: 0.5rem;
   color: red;
   text-align: center;
+}
+
+.webcam p {
+  color: #16A085;
+  text-align: center;
+  font-size: 2rem;
+  margin: 1rem 0 1rem 0;
+}
+
+#alinea {
+  font-size: 1.5rem;
+}
+
+label.file input {
+  position: absolute;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+label.file {
+  width: 0%; /* Use for fluid design */
+  min-width: 30rem;
+  height: 3rem;
+  line-height: 2.8rem!important;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: right;
+}
+
+label.file:before {
+  content: "Pas de fichier";
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: inherit;
+  padding: 0 8.4rem 0 1rem;
+  border: 0 solid #e8eeef;
+  border-width: 2px 0px 2px 2px;
+  border-radius: 3px 0 0 3px;
+  background-color: #fff;
+  color: #a0b7c5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  vertical-align: middle;
+}
+
+label.file[title]:not([title=""]):before{
+  content: attr(title);
+  color: #162f44;
+}
+
+label.file:after {
+  content: "Choisir";
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  width: 7.4rem;
+  height: inherit;
+  padding: 0 0.4rem;
+  background-color: #a0b7c5;
+  color: #fff;
+  overflow: hidden;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  text-align: center;
+  vertical-align: middle;
 }

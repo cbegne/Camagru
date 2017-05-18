@@ -1,7 +1,7 @@
 html {
   height: 100%;
   box-sizing: border-box;
-  font-size: 62.5%
+  font-size: 62.5%;
 }
 
 *,
@@ -11,22 +11,25 @@ html {
 }
 
 body {
-  margin: 0;
+  /*height: 100%;*/
   background-image: url('../img/bw.jpg');
-  font-family: monospace;
+  background-repeat: repeat;
+  background-position: center center;
+  font-family: Gill Sans, sans-serif;
   font-size: 1.7rem;
   position: relative;
-  padding-bottom: 2rem;
+  padding-bottom: 2rem;  /*height of the footer*/
+  margin: 0;
 }
 
 header {
   width: 100%;
-  height: 12%;
+  height: 10rem;
   background-color: #787878;
   border-bottom: 3px solid #edd15a;
 }
 
-.container {
+.headercontainer {
   width: 90%;
   margin: auto;
 }
@@ -38,10 +41,10 @@ nav a {
 }
 
 .title {
-    font-size: 3.2rem;
-    font-family: cursive;
-    color: #16A085;
-  }
+  font-size: 3.2rem;
+  font-family: cursive;
+  color: #16A085;
+}
 
 footer {
   width: 100%;
@@ -49,7 +52,6 @@ footer {
   background-color: #787878;
   border-top: 3px solid #edd15a;
   position: absolute;
-  right: 0;
   bottom: 0;
-  left: 0;
+  clear: both;
 }

@@ -1,8 +1,7 @@
 <?php
 
 session_start() or die("Failed to resume session\n");
-if ($_SESSION['logged_user'] === null)
-  header("Location: ../index.php");
+
 ?>
 
 <html>
@@ -14,8 +13,7 @@ if ($_SESSION['logged_user'] === null)
  </head>
  <body>
   <?php include 'header.php'; ?>
-  <main>
-
+  <main class="allgallery">
     <?php
       require '../class/pictures.class.php';
       $pic = new Pictures("", "", "");
@@ -46,11 +44,15 @@ if ($_SESSION['logged_user'] === null)
            <div class="login" id="login_<?= $id_pic ?>"><?= $value['login'] ?></div>
            <img class="pic" id="pic_<?= $id_pic ?>" src="data:image/jpeg;base64,<?= base64_encode($value['pic'])?>"/>
          <div class="likeandcomment">
-          <? if ($liked === false): ?>
-            <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like.png"/></button>
+          <? if ($_SESSION['logged_user'] !== null): ?>
+            <? if ($liked === false): ?>
+              <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like.png"/></button>
+            <? else: ?>
+              <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like_red.png"/></button>
+            <? endif;?>
           <? else: ?>
-            <button onclick="addLike(<?= $id_pic ?>)" class="like" ><img id=like_<?= $id_pic ?> src="../public/img/like_red.png"/></button>
-          <? endif;?>
+            <button class="like" ><img src="../public/img/like.png"/></button>
+          <? endif; ?>
           <label for="new_comment_<?= $id_pic ?>" class="comment"><img id="comment_<?= $id_pic ?>" src="../public/img/comment.png"/></label>
           <span class="nblike" id="nblike_<?= $id_pic ?>"><?= $nblike ?> j'aime</span>
           </div>
@@ -60,8 +62,10 @@ if ($_SESSION['logged_user'] === null)
             <? endforeach; ?>
           </div>
           <form method="post">
-         <input type="text" onkeypress="{if (event.keyCode == 13) { event.preventDefault(); addComment(<?= $id_pic ?>, this, '<?= $user ?>')}}"
+          <?php if ($_SESSION['logged_user'] !== null): ?>
+            <input type="text" maxlength="255" onkeypress="{if (event.keyCode == 13) { event.preventDefault(); addComment(<?= $id_pic ?>, this, '<?= $user ?>')}}"
                 class="inputcomment" id="new_comment_<?= $id_pic ?>" name="new_comment_<?= $id_pic ?>" placeholder="Ajouter un commentaire...">
+          <? endif; ?>
          </form>
          </div>
        <? endforeach; ?>

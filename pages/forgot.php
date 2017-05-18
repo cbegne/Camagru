@@ -2,19 +2,21 @@
    <head>
      <meta charset="utf-8">
      <title>Réinitialiser mot de passe</title>
+     <link rel="stylesheet" href="../public/css/home.css">
+     <link rel="stylesheet" href="../public/css/headerfooter.css">
    </head>
    <body>
-     <a href="home.php">Home</a><br />
-     <h1>Mot de passe oublié</h1>
+     <?php include 'header.php'; ?>
+     <h2>Mot de passe oublié ?</h2>
      <form class="" action="#" method="post">
-       Votre identifiant : <input type="text" name="login" value=""><br />
-       <input type="submit" name="submit" value="Envoyer">
+       Identifiant<br /><input type="text" name="login" value=""><br />
+       <input id="buttonforgot" class="button" type="submit" name="submit" value="OK">
      </form>
      <?php
      require '../class/users.class.php';
-     if (!empty($_POST['login']) && $_POST['submit'] == "Envoyer") {
-       $login = trim($_POST['login']);
-       $db = new Users($login, "", "", "");
+     if (!empty(htmlentities($_POST['login'])) && $_POST['submit'] == "OK") {
+       $login = trim(htmlentities($_POST['login']));
+       $db = new Users($login, "", "", "", "");
        $db->sendPassword();
        if ($db->message)
          echo '<p style="color:red;">' . $db->message . '</p>';
