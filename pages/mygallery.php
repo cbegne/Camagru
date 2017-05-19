@@ -8,7 +8,7 @@ if ($_SESSION['logged_user'] === null)
 
 <html>
  <head>
-   <meta charset="utf-8">
+   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
    <link rel="stylesheet" href="../public/css/gallery.css">
    <link rel="stylesheet" href="../public/css/headerfooter.css">
    <title>Camagru Gallery</title>

@@ -1,3 +1,7 @@
+@media screen and (max-width: 660px){
+  .connexion, .inscription { padding: 1rem 2rem 1rem 2rem !important;}
+}
+
 body {
   display: flex;
   vertical-align: middle;
@@ -31,7 +35,7 @@ input {
 }
 
 .connexion, .inscription {
-  border: 20px solid #edd15a;
+  border: 2rem solid #edd15a;
   padding: 3rem 9rem 3rem 9rem;
   background-color: #fff099;
 }

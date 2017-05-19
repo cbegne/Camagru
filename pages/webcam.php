@@ -8,7 +8,7 @@ if ($_SESSION['logged_user'] === null)
 
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../public/css/webcam.css">
     <link rel="stylesheet" href="../public/css/headerfooter.css">
     <title>Camagru</title>
@@ -21,9 +21,9 @@ if ($_SESSION['logged_user'] === null)
         <div class="webcam" id="column1">
           <video id="video"></video><br />
           <button id="startbutton">Prendre une photo</button>
-          <button id="img1"><img src="../public/img/image1.png" width=100/></button>
-          <button id="img2"><img src="../public/img/image2.png" width=100/></button>
-          <button id="img3"><img src="../public/img/image3.png" width=100/></button>
+          <button id="img1" style=background-color:#f2f2f2><img src="../public/img/image1.png" width=100/></button>
+          <button id="img2" style=background-color:#f2f2f2><img src="../public/img/image2.png" width=100/></button>
+          <button id="img3" style=background-color:#f2f2f2><img src="../public/img/image3.png" width=100/></button>
           <p>
             OU<br />
             Téléchargez une image <br /><span id="alinea">(jpeg, png | max 1.5 Mo)</span>

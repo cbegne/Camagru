@@ -139,9 +139,9 @@
     var img = document.getElementById("img1");
     img.setAttribute("style", "background-color:#edd15a");
     img = document.getElementById("img2");
-    img.setAttribute("style", "background-color:");
+    img.setAttribute("style", "background-color:#f2f2f2");
     img = document.getElementById("img3");
-    img.setAttribute("style", "background-color:");
+    img.setAttribute("style", "background-color:#f2f2f2");
     ev.preventDefault();
   }, false);
 
@@ -150,9 +150,9 @@
     var img = document.getElementById("img2");
     img.setAttribute("style", "background-color:#edd15a");
     img = document.getElementById("img1");
-    img.setAttribute("style", "background-color:");
+    img.setAttribute("style", "background-color:#f2f2f2");
     img = document.getElementById("img3");
-    img.setAttribute("style", "background-color:");
+    img.setAttribute("style", "background-color:#f2f2f2");
     ev.preventDefault();
   }, false);
 
@@ -161,9 +161,9 @@
     var img = document.getElementById("img3");
     img.setAttribute("style", "background-color:#edd15a");
     img = document.getElementById("img2");
-    img.setAttribute("style", "background-color:");
+    img.setAttribute("style", "background-color:#f2f2f2");
     img = document.getElementById("img1");
-    img.setAttribute("style", "background-color:");
+    img.setAttribute("style", "background-color:#f2f2f2");
     ev.preventDefault();
   }, false);
 
