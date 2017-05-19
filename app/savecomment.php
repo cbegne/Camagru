@@ -9,4 +9,5 @@
    $com->addComment();
   }
 
+  // save comment from gallery in DB
 ?>

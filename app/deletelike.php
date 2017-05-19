@@ -6,4 +6,5 @@
   $db = new Likes($id_pic, $_SESSION['logged_user']);
   $db->deleteLike();
 
+  // unlike in gallery
  ?>

@@ -96,7 +96,7 @@ class Users {
     $pwrurl = "localhost:8080/camagru/pages/password.php?q=" . $token;
     date_default_timezone_set('Europe/Paris');
   	$date_creation = date("Y-m-d H:i:s");
-    $token_expires = date("Y-m-d H:i:s", strtotime($date_creation . ' + 2 minutes'));
+    $token_expires = date("Y-m-d H:i:s", strtotime($date_creation . ' + 2 days'));
     $req = $this->db->prepare("UPDATE `users` SET `token` = ?, `token_expires` = ? WHERE `login` = ?");
     $req->execute(array($token, $token_expires, $this->login));
     $req = $this->db->prepare("UPDATE `users` SET `token` = ?, `token_expires` = ? WHERE `token_expires` < NOW() AND `confirm` = 1");
@@ -105,14 +105,14 @@ class Users {
   }
 
   public function resetPassword() {
-    self::checkPassword();
-    if ($this->message != null)
-      return ;
     $req = $this->db->prepare("SELECT * FROM `users` WHERE `token` = ?");
     $res = $req->execute(array($this->token));
     $user = $req->fetch(PDO::FETCH_ASSOC);
     if (!$user)
       return $this->message = "Le lien a expiré ou n'a pas été correctement suivi.";
+    self::checkPassword();
+    if ($this->message != null)
+      return ;
     $req = $this->db->prepare("UPDATE `users` SET `mot_de_passe` = ? WHERE `token` = ?");
     $req->execute(array(hash('whirlpool', $this->passwd), $this->token));
     $this->message = "Votre mot de passe a été modifié.";

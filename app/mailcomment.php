@@ -12,4 +12,5 @@
 
   mail($email, "Camagru - Nouveau commentaire", $mailbody, $headers);
 
+  // mail comment to owner of the picture
  ?>

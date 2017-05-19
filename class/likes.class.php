@@ -17,8 +17,7 @@ class Likes {
   public function getLike() {
     $req = $this->db->prepare("SELECT * FROM `likes` WHERE `id_pic` = ? AND `login` = ?");
     $res = $req->execute(array($this->id_pic, $this->login));
-    $like = $req->fetch(PDO::FETCH_ASSOC);
-    return $like;
+    return $req->fetch(PDO::FETCH_ASSOC);
   }
 
   public function addLike() {

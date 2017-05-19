@@ -16,4 +16,5 @@
   else
     $this->message = "Le mail de réinitialisation n'a pas pu être envoyé.";
 
- ?>
+  // mail to change password with a link to be followed
+?>

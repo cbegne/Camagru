@@ -19,16 +19,7 @@ class Comments {
   public function getComment() {
     $req = $this->db->prepare("SELECT * FROM `comments` WHERE `id_pic` = ?");
     $res = $req->execute(array($this->id_pic));
-    $allcomments = $req->fetchAll(PDO::FETCH_ASSOC);
-    return $allcomments;
-  }
-
-  public function addComment() {
-    date_default_timezone_set('Europe/Paris');
-  	$date_creation = date("Y-m-d H:i:s");
-    $req = $this->db->prepare("INSERT INTO `comments` (`id_pic`, `comment`, `login`, `date_creation`) VALUES (?, ?, ?, ?)");
-    $req->execute(array($this->id_pic, $this->comment, $this->login, $date_creation));
-    self::sendMailComment();
+    return $req->fetchAll(PDO::FETCH_ASSOC);
   }
 
   private function sendMailComment() {
@@ -44,8 +35,18 @@ class Comments {
     }
   }
 
+  public function addComment() {
+    date_default_timezone_set('Europe/Paris');
+  	$date_creation = date("Y-m-d H:i:s");
+    $req = $this->db->prepare("INSERT INTO `comments` (`id_pic`, `comment`, `login`, `date_creation`) VALUES (?, ?, ?, ?)");
+    $req->execute(array($this->id_pic, $this->comment, $this->login, $date_creation));
+    self::sendMailComment();
+  }
+
   public function deleteAllComment() {
     $req = $this->db->prepare("DELETE FROM `comments` WHERE `id_pic` = ?");
     $req->execute(array($this->id_pic));
   }
 }
+
+?>

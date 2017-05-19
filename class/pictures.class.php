@@ -34,10 +34,15 @@ class Pictures {
   }
 
   public function getPicturesByPage($page, $nbpicbypage) {
-    $req = $this->db->prepare("SELECT * FROM `pictures` ORDER BY `date_creation` DESC LIMIT " . $page . ", " . $nbpicbypage);
-    $res = $req->execute();
-    $picture = $req->fetchAll(PDO::FETCH_ASSOC);
-    return $picture;
+    try {
+      $req = $this->db->prepare("SELECT * FROM `pictures` ORDER BY `date_creation` DESC LIMIT " . $page . ", " . $nbpicbypage);
+      $res = $req->execute();
+      $picture = $req->fetchAll(PDO::FETCH_ASSOC);
+      return $picture;
+    }
+    catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
   }
 
   public function getPicturesByPageByLogin($page, $nbpicbypage) {
@@ -62,12 +67,6 @@ class Pictures {
   public function deletePicture() {
     $req = $this->db->prepare("DELETE FROM `pictures` WHERE `id_pic` = ? AND `login` = ?");
     $req->execute(array($this->id_pic, $this->login));
-    require 'likes.class.php';
-    $like = new Likes($this->id_pic, "");
-    $like->deleteAllLike();
-    require 'comments.class.php';
-    $comment = new Comments($this->id_pic, "", "");
-    $comment->deleteAllComment();
   }
 }
 

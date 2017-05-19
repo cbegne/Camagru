@@ -16,4 +16,5 @@
   else
     return $this->message = "Le mail d'inscription n'a pas pu être envoyé.";
 
+  // confirmation mail with a link to be followed to confirm the account
 ?>

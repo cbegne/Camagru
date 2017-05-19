@@ -75,9 +75,8 @@
 .pages {
   display: flex;
   align-items: center;
-  margin-top: -3vh;
   color: #787878;
-  min-height: 4.5vh;
+  min-height: 4.5rem;
 }
 
 .pages a {
