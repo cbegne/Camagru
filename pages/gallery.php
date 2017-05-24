@@ -18,13 +18,12 @@ session_start() or die("Failed to resume session\n");
       require '../class/pictures.class.php';
       $pic = new Pictures("", "", "");
       $nbpicbypage = 5;
-      $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
+      $page = isset($_GET['page']) ? htmlentities($_GET['page']) : 1;
       $nbpic = $pic->nbPictures();
       $nbpage = ceil($nbpic / $nbpicbypage);
       if ($nbpic == 0): ?>
         <p>Prenez votre première photo dans le Photobooth !</p>
-      <? elseif (intval($page)  || $page > $nbpage ):
+      <? elseif ($page > $nbpage || preg_match('/^[0-9]*$/', $page) == 0):
           echo '<script> location.replace("gallery.php?page=1") </script>';
       else:
         $pics = $pic->getPicturesByPage((($page - 1) * $nbpicbypage), $nbpicbypage); // LIMIT MySQL starts at 0, e.g pics from 0 (not included) to 5 (included)

@@ -26,7 +26,7 @@ if ($_SESSION['logged_user'] === null)
       $nbpage = ceil($nbpic / $nbpicbypage);
       if ($nbpic == 0): ?>
         <p>Prenez votre première photo dans le Photobooth !</p>
-      <? elseif ($page > $nbpage):
+      <? elseif ($page > $nbpage || preg_match('/^[0-9]*$/', $page) == 0):
           echo '<script> location.replace("mygallery.php?page=1") </script>';
       else:
         $pics = $pic->getPicturesByPageByLogin((($page - 1) * $nbpicbypage), $nbpicbypage); // LIMIT MySQL starts at 0, e.g pics from 0 (not included) to 5 (included)

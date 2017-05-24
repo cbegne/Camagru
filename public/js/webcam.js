@@ -1,12 +1,12 @@
 (function() {
 
   var streaming = false,
-      video        = document.querySelector('#video'),
-      cover        = document.querySelector('#cover'),
-      canvas       = document.querySelector('#canvas'),
-      photo        = document.querySelector('#photo'),
-      startbutton  = document.querySelector('#startbutton'),
-      savebutton  = document.querySelector('#savebutton'),
+      video = document.querySelector('#video'),
+      cover = document.querySelector('#cover'),
+      canvas = document.querySelector('#canvas'),
+      photo = document.querySelector('#photo'),
+      startbutton = document.querySelector('#startbutton'),
+      savebutton = document.querySelector('#savebutton'),
       img1 = document.querySelector('#img1'),
       img2 = document.querySelector('#img2'),
       img3 = document.querySelector('#img3'),
@@ -18,7 +18,7 @@
       height = 240,
       imgselected = 0;
 
-  navigator.getMedia = ( navigator.getUserMedia ||
+  navigator.getMedia = (navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
                          navigator.mozGetUserMedia ||
                          navigator.msGetUserMedia);
@@ -101,29 +101,6 @@
     }
   }
 
-  function checkError() {
-    var error = document.getElementById('error');
-    if (error !== null) {
-      error.remove();
-    }
-  }
-
-  function displayError(msg) {
-    var error = document.getElementById('error');
-    if (error !== null) {
-      error.remove();
-    }
-    error = document.createElement("DIV");
-    error.setAttribute("id", "error");
-    if (msg == "NoImg")
-      error.innerHTML = "Sélectionnez une image pour prendre <br />une photo.";
-    else if (msg == "NoUpload")
-      error.innerHTML = "Choisissez une image dans vos dossiers <br /> ne dépassant pas 1,5Mo.";
-    else if (msg == "NoVideo")
-      error.innerHTML = "Activez votre webcam <br /> ou choisissez une image dans vos dossiers";
-    document.getElementById('column1').appendChild(error);
-  }
-
   startbutton.addEventListener('click', function(ev){
     if (streaming == true) {
       takePicture(1);
@@ -174,10 +151,10 @@
   }, false);
 
   upload.addEventListener('change', function(e) {
-    var file = this.files[0];
-    var imageType = /image.*/;
-		if (file.type.match(imageType) && file.size < 1500000) {
-			var reader = new FileReader();
+      var file = this.files[0];
+      var imageType = /image.*/;
+		  if (file.type.match(imageType) && file.size < 1500000) {
+			     var reader = new FileReader();
       reader.addEventListener('load', function() {
         uploadData = reader.result;
       }, false);
@@ -191,6 +168,23 @@
     else
       takePicture(0);
   }, false);
+
+
+  // var div = document.getElementById("dom-target");
+  // uploadData = div.textContent;
+  // if (uploadData != 0) {
+  //   var newcanvas = document.createElement('canvas');
+  //   newcanvas.width = width;
+  //   newcanvas.height = height;
+  //   canvas.width = width;
+  //   canvas.height = height;
+  //   var image = new Image();
+  //   image.src = "data:image/jpeg;base64,"+uploadData;
+  //   image.onload = function() {
+  //     canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+  //     canvas.toDataURL('image/png');
+  //   }
+  // }
 
   function addMinipic(id, data) {
     var div = document.createElement("DIV");
@@ -225,6 +219,30 @@
   }
 
 })();
+
+
+function checkError() {
+  var error = document.getElementById('error');
+  if (error !== null) {
+    error.remove();
+  }
+}
+
+function displayError(msg) {
+  var error = document.getElementById('error');
+  if (error !== null) {
+    error.remove();
+  }
+  error = document.createElement("DIV");
+  error.setAttribute("id", "error");
+  if (msg == "NoImg")
+    error.innerHTML = "Sélectionnez une image pour prendre <br />une photo.";
+  else if (msg == "NoUpload")
+    error.innerHTML = "Choisissez une image dans vos dossiers <br /> ne dépassant pas 1,5Mo.";
+  else if (msg == "NoVideo")
+    error.innerHTML = "Activez votre webcam <br /> ou choisissez une image dans vos dossiers";
+  document.getElementById('column1').appendChild(error);
+}
 
 function deletePicture(id) {
   var elem = document.getElementById('delete_'+id).parentNode.remove();
