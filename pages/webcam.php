@@ -28,13 +28,10 @@ if ($_SESSION['logged_user'] === null)
             OU<br />
             Téléchargez une image <br /><span id="alinea">(jpeg, png | max 1.5 Mo)</span>
           </p>
-          <!-- <form enctype="multipart/form-data" action="../app/checkupload.php" method="POST"> -->
             <label class="file" title="">
-              <!-- <input type="hidden" name="MAX_FILE_SIZE" value="1536000" /> -->
               <input type="file" accept="image/*" name="uploadpic" id="uploadpic" onchange="this.parentNode.setAttribute('title', this.value.replace(/^.*[\\/]/, ''))" />
             </label>
             <input id="uploadsubmitbutton" type="submit" value="Fusionner les images" name="submit">
-          <!-- </form> -->
         </div>
         <div class="apercu">
           <canvas id="canvas"></canvas><br />
@@ -53,13 +50,7 @@ if ($_SESSION['logged_user'] === null)
             </div>
           <? endforeach; ?>
       </aside>
-      <!-- <?
-          $img = base64_encode(file_get_contents("../uploads/" . $_GET['img']));
-      ?>
-      <div id="dom-target" style="display: none;">
-        <?= htmlspecialchars($img); ?>
-      </div> -->
-      <script type="text/javascript" src="../public/js/webcam.js"></script>
+      <script type="application/javascript" src="../public/js/webcam.js"></script>
     </div>
     <footer></footer>
   </body>

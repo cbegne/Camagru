@@ -169,23 +169,6 @@
       takePicture(0);
   }, false);
 
-
-  // var div = document.getElementById("dom-target");
-  // uploadData = div.textContent;
-  // if (uploadData != 0) {
-  //   var newcanvas = document.createElement('canvas');
-  //   newcanvas.width = width;
-  //   newcanvas.height = height;
-  //   canvas.width = width;
-  //   canvas.height = height;
-  //   var image = new Image();
-  //   image.src = "data:image/jpeg;base64,"+uploadData;
-  //   image.onload = function() {
-  //     canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-  //     canvas.toDataURL('image/png');
-  //   }
-  // }
-
   function addMinipic(id, data) {
     var div = document.createElement("DIV");
     div.setAttribute("class", "displaypic");
