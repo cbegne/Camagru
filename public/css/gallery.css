@@ -68,8 +68,8 @@
 
 .allcomments {
   margin-left: 0.5rem;
-  width: 100%;
-  word-wrap: break-word;
+  width: 50rem;
+  overflow-wrap: break-word;
 }
 
 .pages {
